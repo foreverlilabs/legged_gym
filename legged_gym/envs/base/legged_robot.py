@@ -86,8 +86,8 @@ class LeggedRobot(BaseTask):
         self.actions = torch.clip(actions, -clip_actions, clip_actions).to(self.device)
         # step physics and render each frame
         self.render()
-        for _ in range(self.cfg.control.decimation):
-            self.torques = self._compute_torques(self.actions).view(self.torques.shape)
+        for _ in range(self.cfg.control.decimation):#self.sim_params.dt = 0.005
+            self.torques = self._compute_torques(self.actions).view(self.torques.shape)#Pytorch tensor的View（）方法，改变tensor的形状
             self.gym.set_dof_actuation_force_tensor(self.sim, gymtorch.unwrap_tensor(self.torques))
             self.gym.simulate(self.sim)
             if self.device == 'cpu':
@@ -102,7 +102,7 @@ class LeggedRobot(BaseTask):
             self.privileged_obs_buf = torch.clip(self.privileged_obs_buf, -clip_obs, clip_obs)
         return self.obs_buf, self.privileged_obs_buf, self.rew_buf, self.reset_buf, self.extras
 
-    def post_physics_step(self):
+    def post_physics_step(self):#环境重置和数据更新
         """ check terminations, compute observations and rewards
             calls self._post_physics_step_callback() for common computations 
             calls self._draw_debug_vis() if needed
@@ -121,7 +121,7 @@ class LeggedRobot(BaseTask):
 
         self._post_physics_step_callback()
 
-        # compute observations, rewards, resets, ...
+        # compute observations, rewards, resets, ...！！！！！！！！！！！核心
         self.check_termination()
         self.compute_reward()
         env_ids = self.reset_buf.nonzero(as_tuple=False).flatten()
@@ -140,7 +140,7 @@ class LeggedRobot(BaseTask):
         """
         self.reset_buf = torch.any(torch.norm(self.contact_forces[:, self.termination_contact_indices, :], dim=-1) > 1., dim=1)
         self.time_out_buf = self.episode_length_buf > self.max_episode_length # no terminal reward for time-outs
-        self.reset_buf |= self.time_out_buf
+        self.reset_buf |= self.time_out_buf #按位或并赋值
 
     def reset_idx(self, env_ids):
         """ Reset some environments.
@@ -192,7 +192,7 @@ class LeggedRobot(BaseTask):
             Calls each reward function which had a non-zero scale (processed in self._prepare_reward_function())
             adds each terms to the episode sums and to the total reward
         """
-        self.rew_buf[:] = 0.
+        self.rew_buf[:] = 0.#初始化
         for i in range(len(self.reward_functions)):
             name = self.reward_names[i]
             rew = self.reward_functions[i]() * self.reward_scales[name]
@@ -220,7 +220,8 @@ class LeggedRobot(BaseTask):
         # add perceptive inputs if not blind
         if self.cfg.terrain.measure_heights:
             heights = torch.clip(self.root_states[:, 2].unsqueeze(1) - 0.5 - self.measured_heights, -1, 1.) * self.obs_scales.height_measurements
-            self.obs_buf = torch.cat((self.obs_buf, heights), dim=-1)
+            self.obs_buf = torch.cat((self.obs_buf, heights), dim=-1)#cat是拼接
+            #self.root_states[:, 2].unsqueeze(1) 拼接一个维度 把原来的行向量变成一维列向量
         # add noise if needed
         if self.add_noise:
             self.obs_buf += (2 * torch.rand_like(self.obs_buf) - 1) * self.noise_scale_vec
@@ -546,14 +547,14 @@ class LeggedRobot(BaseTask):
             Looks for self._reward_<REWARD_NAME>, where <REWARD_NAME> are names of all non zero reward scales in the cfg.
         """
         # remove zero scales + multiply non-zero ones by dt
-        for key in list(self.reward_scales.keys()):
+        for key in list(self.reward_scales.keys()):#依次取出字典中的键名字
             scale = self.reward_scales[key]
             if scale==0:
                 self.reward_scales.pop(key) 
             else:
-                self.reward_scales[key] *= self.dt
+                self.reward_scales[key] *= self.dt #相当于将奖励累计起来 按照时间dt计算Σr(t)*dt
         # prepare list of functions
-        self.reward_functions = []
+        self.reward_functions = [] #python可以临时创建
         self.reward_names = []
         for name, scale in self.reward_scales.items():
             if name=="termination":
@@ -561,11 +562,33 @@ class LeggedRobot(BaseTask):
             self.reward_names.append(name)
             name = '_reward_' + name
             self.reward_functions.append(getattr(self, name))
-
+            # 整体例子：
+            #   self.reward_scales = {
+            #       "tracking_lin_vel": 1.0,
+            #       "torques": -0.0002,
+            #   }
+            #   循环后结果类似：
+            #   self.reward_names = [
+            #       "tracking_lin_vel",
+            #       "torques",
+            #   ]
+            #   self.reward_functions = [
+            #       self._reward_tracking_lin_vel,
+            #       self._reward_torques,
+            #   ]
         # reward episode sums
         self.episode_sums = {name: torch.zeros(self.num_envs, dtype=torch.float, device=self.device, requires_grad=False)
                              for name in self.reward_scales.keys()}
-
+        # • 这是一个“字典推导式”，用于给每种奖励项创建一份累计奖励张量。
+        #   等价于更展开的写法：
+        #   self.episode_sums = {}
+        #   for name in self.reward_scales.keys():
+        #       self.episode_sums[name] = torch.zeros( #tensor.zeros创建张量表
+        #           self.num_envs,
+        #           dtype=torch.float,
+        #           device=self.device,
+        #           requires_grad=False,
+        #       )
     def _create_ground_plane(self):
         """ Adds a ground plane to the simulation, sets friction and restitution based on the cfg.
         """
@@ -726,7 +749,7 @@ class LeggedRobot(BaseTask):
             self.env_origins[:, 2] = 0.
 
     def _parse_cfg(self, cfg):
-        self.dt = self.cfg.control.decimation * self.sim_params.dt
+        self.dt = self.cfg.control.decimation * self.sim_params.dt #动作更新频率是50Hz
         self.obs_scales = self.cfg.normalization.obs_scales
         self.reward_scales = class_to_dict(self.cfg.rewards.scales)
         self.command_ranges = class_to_dict(self.cfg.commands.ranges)
@@ -812,14 +835,14 @@ class LeggedRobot(BaseTask):
 
         return heights.view(self.num_envs, -1) * self.terrain.cfg.vertical_scale
 
-    #------------ reward functions----------------
+    #------------ reward functions---------------- penalize惩罚
     def _reward_lin_vel_z(self):
         # Penalize z axis base linear velocity
         return torch.square(self.base_lin_vel[:, 2])
     
     def _reward_ang_vel_xy(self):
         # Penalize xy axes base angular velocity
-        return torch.sum(torch.square(self.base_ang_vel[:, :2]), dim=1)
+        return torch.sum(torch.square(self.base_ang_vel[:, :2]), dim=1)#dim是sum的参数
     
     def _reward_orientation(self):
         # Penalize non flat base orientation
@@ -842,15 +865,15 @@ class LeggedRobot(BaseTask):
         # Penalize dof accelerations
         return torch.sum(torch.square((self.last_dof_vel - self.dof_vel) / self.dt), dim=1)
     
-    def _reward_action_rate(self):
+    def _reward_action_rate(self):#用于惩罚动作幅度过大
         # Penalize changes in actions
         return torch.sum(torch.square(self.last_actions - self.actions), dim=1)
     
     def _reward_collision(self):
         # Penalize collisions on selected bodies
         return torch.sum(1.*(torch.norm(self.contact_forces[:, self.penalised_contact_indices, :], dim=-1) > 0.1), dim=1)
-    
-    def _reward_termination(self):
+    # 根据阈值（所有碰撞关节接触力平方求和）0.1判断是否碰撞？
+    def _reward_termination(self):#跌倒终止
         # Terminal reward / penalty
         return self.reset_buf * ~self.time_out_buf
     
@@ -893,7 +916,7 @@ class LeggedRobot(BaseTask):
         return rew_airTime
     
     def _reward_stumble(self):
-        # Penalize feet hitting vertical surfaces
+        # Penalize feet hitting vertical surfaces 惩罚脚步碰撞到竖直表面
         return torch.any(torch.norm(self.contact_forces[:, self.feet_indices, :2], dim=2) >\
              5 *torch.abs(self.contact_forces[:, self.feet_indices, 2]), dim=1)
         

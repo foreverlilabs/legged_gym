@@ -1,0 +1,1661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="rc_dog">
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="silver">
+    <color rgba="0.913725490196 0.913725490196 0.847058823529 1.0"/>
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="brown">
+    <color rgba="0.870588235294 0.811764705882 0.764705882353 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+  <ros2_control name="rc_dog_control" type="system">
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+      <!-- 根据您的关节名称配置 -->
+      <joint name="rf__hip">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="rf__leg1">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="rf__leg2">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="lf__hip">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="lf__leg1">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="lf__leg2">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="rb__hip">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="rb__leg1">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="rb__leg2">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="lb__hip">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="lb__leg1">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      
+      <joint name="lb__leg2">
+        <!-- <command_interface name="position"/>
+        <command_interface name="velocity"/> -->
+        <command_interface name="effort"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+  </ros2_control>
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <ros>
+        <namespace>/rc_dog_gazebo</namespace>
+      </ros>
+      <robotNamespace>/rc_dog</robotNamespace>
+      <parameters>/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/config/rc_dog.yaml</parameters>
+      <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+      <update_rate>500</update_rate>  
+    </plugin>
+  </gazebo>
+  <!-- <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <robotNamespace>/rc_dog_gazebo</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo> -->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+  <!-- Show the trajectory of trunk center. -->
+  <!-- <gazebo>
+    <plugin filename="libLinkPlot3DPlugin.so" name="3dplotTrunk">
+      <ros>
+        <namespace>/rc_dog_gazebo</namespace>
+      </ros>
+      <frequency>10</frequency>
+      <plot>
+        <link>base_link</link>
+        <pose>0 0 0 0 0 0</pose>
+        <material>Gazebo/Yellow</material>
+      </plot>
+    </plugin>
+  </gazebo> -->
+  <!-- Show the trajectory of foot. You can add another trajectory about another foot. -->
+  <gazebo>
+    <plugin filename="libLinkPlot3DPlugin.so" name="3dplot">
+      <frequency>1000</frequency>
+      <plot>
+        <link>rf_leg2_Link</link>
+        <pose>0 0 -0.2 0 0 0</pose>
+        <material>Gazebo/Yellow</material>
+      </plot>
+    </plugin>
+  </gazebo>
+  <!-- <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>400</update_rate>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <ros>
+          <namespace>rc_dog_gazebo</namespace>
+          <remapping>~/out:=trunk_imu</remapping>
+        </ros>
+        <frame_name>imu_link</frame_name>
+        <topic_name>trunk_imu</topic_name>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo> -->
+  <!-- <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>400</update_rate>
+      <visualize>true</visualize>
+      <pose>0 0 0 0 0 0</pose>
+
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0002</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0002</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0002</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.017</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.017</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.017</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <namespace>/</namespace>
+          <remapping>~/out:=trunk_imu</remapping>
+        </ros>
+        <update_rate>400</update_rate>
+        <frame_name>imu_link</frame_name>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+    </sensor>
+  </gazebo> -->
+    <gazebo reference="imu_link">
+      <sensor name="imu_sensor" type="imu">
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+            <ros>
+              <update_rate>400.0</update_rate>
+              <namespace>/</namespace>
+              <remapping>~/out:=trunk_imu</remapping>
+            </ros>
+            <initial_orientation_as_reference>false</initial_orientation_as_reference>
+        </plugin>
+        <always_on>true</always_on>
+        <update_rate>400.0</update_rate>
+        <visualize>true</visualize>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0</bias_stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0</bias_stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </gazebo>
+
+<!-- Foot contacts.-->
+  <gazebo reference="rf_foot_Link">
+    <sensor name="FR_foot_contact" type="contact">
+      <update_rate>1000</update_rate>
+      <plugin filename="libunitreeFootContactPlugin.so" name="FR_contactPlugin"/>
+      <contact>
+        <collision>FR_calf_fixed_joint_lump__FR_foot_collision_1</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+  <gazebo reference="lf_foot_Link">
+    <sensor name="FL_foot_contact" type="contact">
+      <update_rate>1000</update_rate>
+      <plugin filename="libunitreeFootContactPlugin.so" name="FL_contactPlugin"/>
+      <contact>
+        <collision>FL_calf_fixed_joint_lump__FL_foot_collision_1</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+  <gazebo reference="rb_foot_Link">
+    <sensor name="RR_foot_contact" type="contact">
+      <update_rate>1000</update_rate>
+      <plugin filename="libunitreeFootContactPlugin.so" name="RR_contactPlugin"/>
+      <contact>
+        <collision>RR_calf_fixed_joint_lump__RR_foot_collision_1</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+  <gazebo reference="lb_foot_Link">
+    <sensor name="RL_foot_contact" type="contact">
+      <update_rate>1000</update_rate>
+      <plugin filename="libunitreeFootContactPlugin.so" name="RL_contactPlugin"/>
+      <contact>
+        <collision>RL_calf_fixed_joint_lump__RL_foot_collision_1</collision>
+      </contact>
+    </sensor>
+  </gazebo>
+  <!-- Visualization of Foot contacts. -->
+  <gazebo reference="rf_foot_Link">
+      <plugin filename="libunitreeDrawForcePlugin.so" name="FR_drawForcePlugin">
+          <topic_name>FR_foot_contact</topic_name>
+          <link_name>rf_foot_Link</link_name>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="lf_foot_Link">
+      <plugin filename="libunitreeDrawForcePlugin.so" name="FL_drawForcePlugin">
+          <topic_name>FL_foot_contact</topic_name>
+          <link_name>lf_foot_Link</link_name>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="rb_foot_Link">
+      <plugin filename="libunitreeDrawForcePlugin.so" name="RR_drawForcePlugin">
+          <topic_name>RR_foot_contact</topic_name>
+          <link_name>rb_foot_Link</link_name>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="lb_foot_Link">
+      <plugin filename="libunitreeDrawForcePlugin.so" name="RL_drawForcePlugin">
+          <topic_name>RL_foot_contact</topic_name>
+          <link_name>lb_foot_Link</link_name>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="base">
+    <material>Gazebo/White</material>
+    <turn_gravity_off>false</turn_gravity_off>
+  </gazebo>
+  <gazebo reference="base_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="stick_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="imu_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Red</material>
+  </gazebo>
+  <!-- leg -->
+  <gazebo reference="rf_hip_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+    <self_collide>1</self_collide>
+  </gazebo>
+  <gazebo reference="rf_leg1_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/Blue</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="rf_leg2_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="rf_foot_Link">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="lf_hip_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+    <self_collide>1</self_collide>
+  </gazebo>
+  <gazebo reference="lf_leg1_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/Blue</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="lf_leg2_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="lf_foot_Link">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="rb_hip_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+    <self_collide>1</self_collide>
+  </gazebo>
+  <gazebo reference="rb_leg1_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/Blue</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="rb_leg2_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="rb_foot_Link">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="lb_hip_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Black</material>
+    <self_collide>1</self_collide>
+  </gazebo>
+  <gazebo reference="lb_leg1_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/Blue</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+  <gazebo reference="lb_leg2_Link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="lb_foot_Link">
+    <mu1>0.6</mu1>
+    <mu2>0.6</mu2>
+    <self_collide>1</self_collide>
+    <material>Gazebo/DarkGrey</material>
+    <kp value="1000000.0"/>
+    <kd value="1.0"/>
+  </gazebo>
+
+  <link name="base">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="floating_base" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="base"/>
+    <child link="base_link"/>
+  </joint>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <!---
+      <mass 
+        value="4.50029648061382" />
+      -->
+      <mass 
+        value="5.66" />
+      <!--<inertia
+        ixx="0.0176116201443777"
+        ixy="4.85296702838236E-05"
+        ixz="2.32312668477577E-05"
+        iyy="0.032258912180839"
+        iyz="-3.6491782731198E-05"
+        izz="0.0422626248255036" />-->
+      <inertia
+        ixx="0.03131"
+        ixy="4.85296702838236E-05"
+        ixz="2.32312668477577E-05"
+        iyy="0.05735"
+        iyz="-3.6491782731198E-05"
+        izz="0.07513" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size=".001 .001 .001"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="rf_hip_Link">
+    <inertial>
+      <origin
+        xyz="3.63815e-03 1.553565e-2 1.048e-5"
+        rpy="1.57 1.57 0" />
+      <mass
+        value="6.2424534e-1" />
+      <inertia
+        ixx="4.1791e-4"
+        ixy="3.501e-5"
+        ixz="1.3e-7"
+        iyy="7.7453e-4"
+        iyz="-1.3e-7"
+        izz="5.3104e-4" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rf_hip_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rf_hip_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf__hip"
+    type="revolute">
+    <origin
+      xyz="0.23866 -0.1 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rf_hip_Link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.863"
+      upper="0.863"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="rf_leg1_Link">
+    <inertial>
+      <origin
+        xyz="-3.73612e-3 -2.658411e-02 -2.539968e-02"
+        rpy="0 0 0" />
+      <mass
+        value="9.4153487e-1" />
+      <inertia
+        ixx="4.04710e-03"
+        ixy="-9.849e-05"
+        ixz="3.3391e-04"
+        iyy="4.05785e-03"
+        iyz="-6.2094e-04"
+        izz="1.18353e-03" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rf_leg1_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.1075"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0245 0.034 0.215"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf__leg1"
+    type="revolute">
+    <origin
+      xyz="0 -0.0689 0"
+      rpy="0 0.69459 0" />
+    <parent
+      link="rf_hip_Link" />
+    <child
+      link="rf_leg1_Link" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-4.501"
+      upper="4.501"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="rf_leg2_Link">
+    <inertial>
+      <origin
+        xyz="0 5.12583E-03 -9.507053e-2"
+        rpy="0 0 1.57" />
+      <mass
+        value="1.6674302e-01" />
+      <inertia
+        ixx="1.36477e-3"
+        ixy="0"
+        ixz="8e-8"
+        iyy="1.34363e-03"
+        iyz="-3.92e-5"
+        izz="3.95e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rf_leg2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rf_leg2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf__leg2"
+    type="revolute">
+    <origin
+      xyz="-0.02628 -0.01219 -0.21354"
+      rpy="0 -1.42139 0" />
+    <parent
+      link="rf_leg1_Link" />
+    <child
+      link="rf_leg2_Link" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="35.55"
+      velocity="20.06" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="rf_foot_Link">
+    <inertial>
+      <origin
+        xyz="-1.6020518245341E-13 1.21924692564335E-12 -0.00928397365682443"
+        rpy="0 0 0" />
+      <mass
+        value="0.06" />
+      <inertia
+        ixx="9.6e-06"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="9.6e-06"
+        iyz="0.0"
+        izz="9.6e-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rf_foot_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.84314 0.81569 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.02" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf__foot"
+    type="fixed">
+    <origin
+      xyz="0.005096 0 -0.20101"
+      rpy="-3.1416 0.8801 -3.1416" />
+    <parent
+      link="rf_leg2_Link" />
+    <child
+      link="rf_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <!-- <transmission name="rf_hip_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf__hip">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_hip_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="rf_thigh_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf__leg1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_leg1_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="rf_calf_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rf__leg2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rf_leg2_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> -->
+  <link
+    name="lf_hip_Link">
+    <inertial>
+      <origin
+        xyz="3.63815e-03 -1.553565e-2 1.048e-5"
+        rpy="1.57 1.57 0" />
+      <mass
+        value="6.2424534e-1" />
+      <inertia
+        ixx="4.1791e-4"
+        ixy="-3.501e-5"
+        ixz="1.3e-7"
+        iyy="7.7453e-4"
+        iyz="1.3e-7"
+        izz="5.3104e-4" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lf_hip_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lf_hip_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf__hip"
+    type="revolute">
+    <origin
+      xyz="0.23866 0.1 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="lf_hip_Link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.863"
+      upper="0.863"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="lf_leg1_Link">
+    <inertial>
+      <origin
+        xyz="-3.73612e-3 2.658411e-02 -2.539968e-02"
+        rpy="0 0 0" />
+      <mass
+        value="9.4153487e-1" />
+      <inertia
+        ixx="4.04710e-03"
+        ixy="9.849e-05"
+        ixz="3.3391e-04"
+        iyy="4.05785e-03"
+        iyz="6.2094e-04"
+        izz="1.18353e-03" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lf_leg1_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.1075"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0245 0.034 0.215"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf__leg1"
+    type="revolute">
+    <origin
+      xyz="0 0.0689 0"
+      rpy="0 0.69459 0" />
+    <parent
+      link="lf_hip_Link" />
+    <child
+      link="lf_leg1_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-4.501"
+      upper="4.501"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="lf_leg2_Link">
+    <inertial>
+      <origin
+        xyz="0 5.12583E-03 -9.507053e-2"
+        rpy="0 0 1.57" />
+      <mass
+        value="1.6674302e-01" />
+      <inertia
+        ixx="1.36477e-3"
+        ixy="0"
+        ixz="8e-8"
+        iyy="1.34363e-03"
+        iyz="-3.92e-5"
+        izz="3.95e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lf_leg2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lf_leg2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf__leg2"
+    type="revolute">
+    <origin
+      xyz="-0.020935 0.016985 -0.2138"
+      rpy="0 -1.42139 0" />
+    <parent
+      link="lf_leg1_Link" />
+    <child
+      link="lf_leg2_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="35.55"
+      velocity="20.06" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="lf_foot_Link">
+    <inertial>
+      <origin
+        xyz="-7.02771174587724E-14 2.81059897577762E-13 -0.00928397365604253"
+        rpy="0 0 0" />
+      <mass
+        value="0.06" />
+      <inertia
+        ixx="9.6e-06"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="9.6e-06"
+        iyz="0.0"
+        izz="9.6e-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lf_foot_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.84314 0.81569 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.02" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf__foot"
+    type="fixed">
+    <origin
+      xyz="0.0050966 0 -0.20101"
+      rpy="3.1416 0.8801 3.1416" />
+    <parent
+      link="lf_leg2_Link" />
+    <child
+      link="lf_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <!-- <transmission name="lf_hip_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf__hip">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_hip_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="lf_thigh_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf__leg1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_leg1_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="lf_calf_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lf__leg2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lf_leg2_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> -->
+  <link
+    name="rb_hip_Link">
+    <inertial>
+      <origin
+        xyz="3.63815e-03 1.553565e-2 1.048e-5"
+        rpy="1.57 1.57 0" />
+      <mass
+        value="6.2424534e-1" />
+      <inertia
+        ixx="4.1791e-4"
+        ixy="3.501e-5"
+        ixz="1.3e-7"
+        iyy="7.7453e-4"
+        iyz="-1.3e-7"
+        izz="5.3104e-4" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rb_hip_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rb_hip_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb__hip"
+    type="revolute">
+    <origin
+      xyz="-0.24254 -0.1 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rb_hip_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.863"
+      upper="0.863"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="rb_leg1_Link">
+    <inertial>
+      <origin
+        xyz="-3.73612e-3 -2.658411e-02 -2.539968e-02"
+        rpy="0 0 0" />
+      <mass
+        value="9.4153487e-1" />
+      <inertia
+        ixx="4.04710e-03"
+        ixy="-9.849e-05"
+        ixz="3.3391e-04"
+        iyy="4.05785e-03"
+        iyz="-6.2094e-04"
+        izz="1.18353e-03" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rb_leg1_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.64706 0.61961 0.58824 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.1075"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0245 0.034 0.215"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb__leg1"
+    type="revolute">
+    <origin
+      xyz="0 -0.0689 0"
+      rpy="0 0.69459 0" />
+    <parent
+      link="rb_hip_Link" />
+    <child
+      link="rb_leg1_Link" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-4.501"
+      upper="4.501"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="rb_leg2_Link">
+    <inertial>
+      <origin
+        xyz="0 5.12583E-03 -9.507053e-2"
+        rpy="0 0 1.57" />
+      <mass
+        value="1.6674302e-01" />
+      <inertia
+        ixx="1.36477e-3"
+        ixy="0"
+        ixz="8e-8"
+        iyy="1.34363e-03"
+        iyz="-3.92e-5"
+        izz="3.95e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rb_leg2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rb_leg2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb__leg2"
+    type="revolute">
+    <origin
+      xyz="-0.010006 -0.011967 -0.21493"
+      rpy="0 -1.42139 0" />
+    <parent
+      link="rb_leg1_Link" />
+    <child
+      link="rb_leg2_Link" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="35.55"
+      velocity="20.06" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="rb_foot_Link">
+    <inertial>
+      <origin
+        xyz="3.0364599723498E-14 -5.53446177775641E-13 -0.00928397365694847"
+        rpy="0 0 0" />
+      <mass
+        value="0.06" />
+      <inertia
+        ixx="9.6e-06"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="9.6e-06"
+        iyz="0.0"
+        izz="9.6e-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/rb_foot_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.84314 0.81569 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb__foot"
+    type="fixed">
+    <origin
+      xyz="0.005096 0 -0.20101"
+      rpy="3.1416 0.8801 3.1416" />
+    <parent
+      link="rb_leg2_Link" />
+    <child
+      link="rb_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <!-- <transmission name="rb_hip_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rb__hip">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rb_hip_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="rb_thigh_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rb__leg1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rb_leg1_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="rb_calf_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rb__leg2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rb_leg2_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> -->
+  <link
+    name="lb_hip_Link">
+    <inertial>
+      <origin
+        xyz="3.63815e-03 -1.553565e-2 1.048e-5"
+        rpy="1.57 1.57 0" />
+      <mass
+        value="6.2424534e-1" />
+      <inertia
+        ixx="4.1791e-4"
+        ixy="-3.501e-5"
+        ixz="1.3e-7"
+        iyy="7.7453e-4"
+        iyz="1.3e-7"
+        izz="5.3104e-4" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lb_hip_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lb_hip_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb__hip"
+    type="revolute">
+    <origin
+      xyz="-0.24254 0.1 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="lb_hip_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.863"
+      upper="0.863"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="lb_leg1_Link">
+    <inertial>
+      <origin
+        xyz="-3.73612e-3 2.658411e-02 -2.539968e-02"
+        rpy="0 0 0" />
+      <mass
+        value="9.4153487e-1" />
+      <inertia
+        ixx="4.04710e-03"
+        ixy="9.849e-05"
+        ixz="3.3391e-04"
+        iyy="4.05785e-03"
+        iyz="6.2094e-04"
+        izz="1.18353e-03" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lb_leg1_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.1075"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0245 0.034 0.215"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb__leg1"
+    type="revolute">
+    <origin
+      xyz="0 0.0623 0"
+      rpy="0 0.69459 0" />
+    <parent
+      link="lb_hip_Link" />
+    <child
+      link="lb_leg1_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-4.501"
+      upper="4.501"
+      effort="23.7"
+      velocity="30.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="lb_leg2_Link">
+    <inertial>
+      <origin
+        xyz="0 5.12583E-03 -9.507053e-2"
+        rpy="0 0 1.57" />
+      <mass
+        value="1.6674302e-01" />
+      <inertia
+        ixx="1.36477e-3"
+        ixy="0"
+        ixz="8e-8"
+        iyy="1.34363e-03"
+        iyz="-3.92e-5"
+        izz="3.95e-5" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lb_leg2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lb_leg2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb__leg2"
+    type="revolute">
+    <origin
+      xyz="0.001415 0.02388 -0.21471"
+      rpy="0 -1.42139 0" />
+    <parent
+      link="lb_leg1_Link" />
+    <child
+      link="lb_leg2_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="35.55"
+      velocity="20.06" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="lb_foot_Link">
+    <inertial>
+      <origin
+        xyz="-3.77475828372553E-15 3.43475248243408E-16 -0.00928397365692848"
+        rpy="0 0 0" />
+      <mass
+        value="0.06" />
+      <inertia
+        ixx="9.6e-06"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="9.6e-06"
+        iyz="0.0"
+        izz="9.6e-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="/home/wry/mpc_simulation_ws/src/unitree_ros/robots/rc_dog/meshes/lb_foot_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.84314 0.81569 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb__foot"
+    type="fixed">
+    <origin
+      xyz="0.0050966 0 -0.20101"
+      rpy="-3.1416 0.8801 3.1416" />
+    <parent
+      link="lb_leg2_Link" />
+    <child
+      link="lb_foot_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <!-- <transmission name="lb_hip_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lb__hip">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lb_hip_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="lb_thigh_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lb__leg1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lb_leg1_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="lb_calf_tran">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lb__leg2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="lb_leg2_Link">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission> -->
+
+  <!-- <gazebo>
+    <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
+      <ros>
+        <namespace>/rc_dog_gazebo</namespace>
+      </ros>
+      <robotNamespace>/rc_dog</robotNamespace>
+      <link_name>lb_hip_Link</link_name>
+      <topic_name>/apply_force/trunk</topic_name>
+    </plugin>
+  </gazebo> -->
+  
+</robot>

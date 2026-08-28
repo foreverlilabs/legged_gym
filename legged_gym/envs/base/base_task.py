@@ -66,8 +66,8 @@ class BaseTask():
         torch._C._jit_set_profiling_mode(False)
         torch._C._jit_set_profiling_executor(False)
 
-        # allocate buffers
-        self.obs_buf = torch.zeros(self.num_envs, self.num_obs, device=self.device, dtype=torch.float)
+        # allocate buffers 分配buff
+        self.obs_buf = torch.zeros(self.num_envs, self.num_obs, device=self.device, dtype=torch.float)#tensor
         self.rew_buf = torch.zeros(self.num_envs, device=self.device, dtype=torch.float)
         self.reset_buf = torch.ones(self.num_envs, device=self.device, dtype=torch.long)
         self.episode_length_buf = torch.zeros(self.num_envs, device=self.device, dtype=torch.long)
@@ -117,7 +117,7 @@ class BaseTask():
     def step(self, actions):
         raise NotImplementedError
 
-    def render(self, sync_frame_time=True):
+    def render(self, sync_frame_time=True):#仿真画面函数
         if self.viewer:
             # check for window closed
             if self.gym.query_viewer_has_closed(self.viewer):

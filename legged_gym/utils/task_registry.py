@@ -42,7 +42,7 @@ from .helpers import get_args, update_cfg_from_args, class_to_dict, get_load_pat
 from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
 
 class TaskRegistry():
-    def __init__(self):
+    def __init__(self):#  def __init__(self):__init__ 是初始化方法。每次创建对象时，它都会自动执行,创建3个字典
         self.task_classes = {}
         self.env_cfgs = {}
         self.train_cfgs = {}
@@ -135,7 +135,7 @@ class TaskRegistry():
         # override cfg from args (if specified)
         _, train_cfg = update_cfg_from_args(None, train_cfg, args)
 
-        if log_root=="default":
+        if log_root=="default":#保存Log文件路径
             log_root = os.path.join(LEGGED_GYM_ROOT_DIR, 'logs', train_cfg.runner.experiment_name)
             log_dir = os.path.join(log_root, datetime.now().strftime('%b%d_%H-%M-%S') + '_' + train_cfg.runner.run_name)
         elif log_root is None:

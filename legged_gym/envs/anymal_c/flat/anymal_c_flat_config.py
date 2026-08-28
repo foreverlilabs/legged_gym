@@ -46,8 +46,12 @@ class AnymalCFlatCfg( AnymalCRoughCfg ):
         class scales ( AnymalCRoughCfg.rewards.scales ):
             orientation = -5.0
             torques = -0.000025
-            feet_air_time = 2.
+            feet_air_time = 2.#足端腾空时间
             # feet_contact_forces = -0.01
+            #   - orientation = -5.0：强烈惩罚机身倾斜。机器人要保持躯干接近水平。
+            #   - torques = -0.000025：惩罚关节力矩，避免用蛮力运动。数值较小，是因为力矩平方量级可能很大。
+            #   - feet_air_time = 2.0：奖励合理的足端腾空时间，鼓励形成步态，而不是四只脚一直拖地。
+            #   - max_contact_force = 350：接触力超过 350 N 才触发相关惩罚阈值。
     
     class commands( AnymalCRoughCfg.commands ):
         heading_command = False
@@ -62,7 +66,7 @@ class AnymalCFlatCfgPPO( AnymalCRoughCfgPPO ):
     class policy( AnymalCRoughCfgPPO.policy ):
         actor_hidden_dims = [128, 64, 32]
         critic_hidden_dims = [128, 64, 32]
-        activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
+        activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid，ELU激活函数，这里的三层MLP通常指的是三层隐藏层
 
     class algorithm( AnymalCRoughCfgPPO.algorithm):
         entropy_coef = 0.01

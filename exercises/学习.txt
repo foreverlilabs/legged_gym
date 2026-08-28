@@ -1,0 +1,160 @@
+ 下面按 week01_mlp.py:1 的结构解释。
+
+  import random
+  import time
+
+  import numpy as np
+  import torch
+  from torch import nn
+
+  导入依赖：
+
+  - random：Python 自带的随机数工具。
+  - time：记录训练耗时。
+  - numpy：常用数值计算库。
+  - torch：PyTorch 主库，负责张量计算与自动求导。
+  - nn：神经网络模块，包含 Linear、ReLU、MSELoss 等组件。
+
+  def set_seed(seed: int = 42):
+      random.seed(seed)
+      np.random.seed(seed)
+      torch.manual_seed(seed)
+      if torch.cuda.is_available():
+          torch.cuda.manual_seed_all(seed)
+
+  固定随机种子。模型参数初始化含有随机性；固定种子后，每次运行初始参数相同，结果更容易复现。
+
+  class MLP(nn.Module):
+
+  定义一个多层感知机（MLP）。继承 nn.Module，PyTorch 才能自动识别它的参数，并支持 .to(device)、model.parameters() 等操作。
+
+  def __init__(self):
+      super().__init__()
+
+  __init__ 在创建模型时执行。super().__init__() 初始化父类 nn.Module 的内部功能。
+
+  self.network = nn.Sequential(
+      nn.Linear(1, 32),
+      nn.ReLU(),
+      nn.Linear(32, 32),
+      nn.ReLU(),
+      nn.Linear(32, 1),
+  )
+
+  定义网络层，nn.Sequential 表示数据按顺序依次通过各层：
+
+  输入 x [N, 1]
+    -> Linear(1, 32)
+    -> ReLU
+    -> Linear(32, 32)
+    -> ReLU
+    -> Linear(32, 1)
+    -> 预测 y [N, 1]
+
+  N 是样本数量，这里为 2000。
+
+  def forward(self, x):
+      return self.network(x)
+
+  定义前向传播：输入 x 经过上述网络，返回预测结果。
+
+  def train(optimizer_name: str):
+      set_seed()
+      device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+  定义训练函数。每次训练都重置随机种子，并自动选择 GPU；无可用 GPU 时使用 CPU。
+
+  x = torch.linspace(-2, 2, 2000).reshape(-1, 1).to(device)
+  y = 2 * x**2 + 3 * x + 1
+
+  生成训练数据：
+
+  - x：从 -2 到 2 均匀取 2000 个点。
+  - .reshape(-1, 1)：整理成 2000 行、1 列，符合网络输入格式。
+  - .to(device)：将数据放到 CPU 或 GPU。
+  - y：真实目标函数 y = 2x^2 + 3x + 1。
+
+  model = MLP().to(device)
+  loss_fn = nn.MSELoss()
+
+  创建模型并移动到同一设备。loss_fn 是均方误差损失，用于衡量预测值和真实值的差距。
+
+  if optimizer_name == "SGD":
+      optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+  elif optimizer_name == "Adam":
+      optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+  else:
+      raise ValueError(...)
+
+  根据传入名称创建优化器：
+
+  - model.parameters()：模型全部可训练参数，包括每个 Linear 层的权重和偏置。
+  - lr=0.01：学习率，控制每次更新参数的步长。
+  - 非法名称会直接报错，避免静默训练错误的配置。
+
+  start = time.perf_counter()
+  for epoch in range(1000):
+
+  开始计时，训练 1000 次。每个 epoch 都使用完整的 2000 个训练样本做一次更新，这种方式称为全批量训练。
+
+  prediction = model(x)
+  loss = loss_fn(prediction, y)
+
+  前向传播：
+
+  - model(x) 产生预测值。
+  - loss_fn(prediction, y) 计算预测值和真实值的 MSE 损失。
+
+  optimizer.zero_grad()
+  loss.backward()
+  optimizer.step()
+
+  一次训练更新的核心步骤：
+
+  1. zero_grad()：清除上一轮残留梯度。
+  2. backward()：反向传播，计算每个参数对 loss 的梯度。
+  3. step()：优化器根据梯度更新参数。
+
+  if epoch % 200 == 0:
+      print(...)
+
+  每 200 轮打印一次损失，方便观察是否在收敛，避免 1000 轮全部打印。
+
+  if device.type == "cuda":
+      torch.cuda.synchronize()
+  elapsed = time.perf_counter() - start
+
+  GPU 操作通常是异步的。synchronize() 会等待 GPU 完成全部训练计算，再计时，因此时间更准确。CPU 不需要这一步。
+
+  with torch.no_grad():
+
+  关闭自动求导。测试阶段只做预测，不需要梯度，可以节省显存和计算。
+
+  test_x = torch.tensor([[-1.0], [0.0], [1.0]], device=device)
+  prediction = model(test_x).cpu().flatten()
+  expected = 2 * test_x.cpu().flatten() ** 2 + 3 * test_x.cpu().flatten() + 1
+
+  用三个未单独参与训练判断的输入点测试模型：
+
+  - test_x 在当前计算设备上预测。
+  - .cpu() 将结果放回 CPU，便于显示。
+  - .flatten() 将 [3, 1] 展平为 [3]。
+  - expected 手工计算真实答案，应为 [0.0, 1.0, 6.0]。
+
+  assert loss.item() < 0.05
+
+  验收条件：最后的损失必须小于 0.05。若训练未充分收敛，程序会抛出 AssertionError。
+
+  if __name__ == "__main__":
+
+  只有直接执行 python week01_mlp.py 时才运行以下代码；如果其他文件导入本文件，训练不会自动开始。
+
+  sgd_loss, sgd_time = train("SGD")
+  adam_loss, adam_time = train("Adam")
+
+  用同一套数据、模型结构、学习率和训练轮数，分别训练 SGD 与 Adam，最后输出两者的损失和耗时，便于比较。
+
+ 
+› Find and fix a bug in @filename
+ 
+  gpt-5.6-terra medium · ~/legged_gym/exercises

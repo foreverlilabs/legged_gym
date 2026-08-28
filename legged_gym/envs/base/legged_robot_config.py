@@ -38,6 +38,11 @@ class LeggedRobotCfg(BaseConfig):
         num_actions = 12
         env_spacing = 3.  # not used with heightfields/trimeshes 
         send_timeouts = True # send time out information to the algorithm
+        send_timeouts = True
+        #   环境会把因“达到最大回合时长”结束的标记传给 PPO。这样算法能区分：
+        #   - 正常到时结束：可用 critic value 做 bootstrap；
+        #   - 机器人跌倒等失败结束：不做该 bootstrap。
+        #   通常应保持 True。
         episode_length_s = 20 # episode length in seconds
 
     class terrain:
@@ -160,7 +165,7 @@ class LeggedRobotCfg(BaseConfig):
             dof_pos = 1.0
             dof_vel = 0.05
             height_measurements = 5.0
-        clip_observations = 100.
+        clip_observations = 100. #对观测和动作的限制
         clip_actions = 100.
 
     class noise:

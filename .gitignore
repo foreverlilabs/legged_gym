@@ -57,3 +57,7 @@ runs
 # other
 *.egg-info
 __pycache__
+.patch_probe
+MUJOCO_LOG.TXT
+*.STLbak
+
